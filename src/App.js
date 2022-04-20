@@ -1,22 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import BooksList from "./components/BooksList";
+import Clock from "./components/Clock";
 
 function App() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [load, setLoading] = useState(false);
+
+  // CICLO DE VIDA REACT
+  // MONTAGEM
+  useEffect(() => {
+    setLoading(true);
+  }, []);
+
+  // ATUALIZAÇÃO
+  useEffect(() => {
+    if (load) {
+      // CASO NÃO COLOQUE UMA CONDIÇÃO ESSA LÓGICA SERÁ EXECUTADA NA MONTAGEM
+      console.log("Atualização");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVisible]);
+
+  // DESMONTAGEM
+  useEffect(() => () => {}, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {isVisible && <Clock />}
+        <button onClick={() => setIsVisible(!isVisible)}>
+          Desligar Relógio
+        </button>
+
+        <BooksList />
       </header>
     </div>
   );
